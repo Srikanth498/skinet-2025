@@ -1,3 +1,4 @@
+using Core.Entities;
 using Core.Interfaces;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,9 @@ builder.Services.AddDbContext<StoreContext>(opt =>
 
 //Scoped means that the service will be created once per request as long as HTTP request.
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
+//register the generic repository with the service container to be used in the application
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
 var app = builder.Build();
 

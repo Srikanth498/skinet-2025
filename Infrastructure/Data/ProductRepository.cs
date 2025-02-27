@@ -59,7 +59,8 @@ public class ProductRepository(StoreContext context) : IProductRepository
     {
         
         return await context.Products.Select(x => x.Type)
-            .Distinct().ToListAsync();//return all product types
+            .Distinct()
+            .ToListAsync();//return all product types
     }
 
     public bool productExists(int id)
