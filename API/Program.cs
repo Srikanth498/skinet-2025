@@ -1,3 +1,4 @@
+using API.Middleware;
 using Core.Entities;
 using Core.Interfaces;
 using Infrastructure.Data;
@@ -18,7 +19,14 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 //register the generic repository with the service container to be used in the application
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
+builder.Services.AddCors();
+
 var app = builder.Build();
+app.UseMiddleware<ExceptionMiddleware>();
+
+//cors added here to allow the angular app to access the api from a different origin 
+app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod()
+    .WithOrigins("http://localhost:4200", "https://localhost:4200"));
 
 app.MapControllers();
 
